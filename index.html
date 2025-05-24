@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite App Publishing | Google Play + 45 Stores</title>
+    <title>Pro App Publishing | Google Play + 45 Stores</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -14,8 +14,7 @@
             --dark: #202124;
             --gray: #5f6368;
             --card-bg: #ffffff;
-            --shadow: 0 12px 24px -6px rgba(0,0,0,0.1);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --mobile-breakpoint: 768px;
         }
 
         * {
@@ -32,137 +31,107 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Glass Morphism Effect */
-        .glass {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
+        /* Mobile-First Base Styles */
+        .container {
+            width: 100%;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         /* Hero Section */
         .hero {
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            background: linear-gradient(135deg, #4285F4 0%, #3367D6 100%);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 80px 0;
+            text-align: center;
             position: relative;
             overflow: hidden;
-            padding: 0 5%;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 300%;
-            height: 300%;
-            top: -100%;
-            left: -50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            transform: rotate(30deg);
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: 2.2rem;
             font-weight: 800;
+            margin-bottom: 20px;
             line-height: 1.2;
-            margin-bottom: 1.5rem;
-            color: white;
         }
 
         .hero p {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             max-width: 600px;
+            margin: 0 auto 30px;
             opacity: 0.9;
-            color: white;
-            margin-bottom: 2.5rem;
-        }
-
-        .cta-group {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
         }
 
         .cta-button {
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 2.25rem;
+            gap: 10px;
+            padding: 14px 28px;
             border-radius: 50px;
             font-weight: 600;
             text-decoration: none;
-            transition: var(--transition);
-            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            margin: 5px;
         }
 
         .cta-primary {
             background: white;
             color: var(--primary);
-            box-shadow: var(--shadow);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .cta-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 16px 32px -8px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
         .cta-secondary {
             background: rgba(255,255,255,0.15);
             color: white;
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
         }
 
         .cta-secondary:hover {
             background: rgba(255,255,255,0.25);
         }
 
-        /* Main Content */
-        .main-content {
+        /* Play Store Section */
+        .play-section {
+            margin-top: -40px;
             position: relative;
-            margin-top: -80px;
             z-index: 10;
-            padding: 0 5%;
         }
 
-        /* Play Store Card */
         .play-card {
-            max-width: 1200px;
-            margin: 0 auto 3rem;
-            padding: 3rem;
             background: var(--card-bg);
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
         }
 
-        .play-logo {
+        .play-header {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        .play-logo-icon {
-            font-size: 3.5rem;
+        .play-icon {
+            font-size: 2.5rem;
             color: var(--primary);
         }
 
-        .play-logo-text {
-            font-size: 2rem;
+        .play-title {
+            font-size: 1.8rem;
             font-weight: 700;
             background: linear-gradient(to right, #4285F4, #34A853, #FBBC05, #EA4335);
             -webkit-background-clip: text;
@@ -170,15 +139,14 @@
         }
 
         .play-features {
-            list-style: none;
-            margin: 2rem 0;
+            margin: 25px 0;
         }
 
         .play-features li {
-            padding: 0.75rem 0;
+            padding: 10px 0;
             display: flex;
             align-items: flex-start;
-            gap: 0.75rem;
+            gap: 10px;
         }
 
         .play-features li::before {
@@ -190,41 +158,39 @@
         .publish-btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 2rem;
+            gap: 10px;
+            padding: 14px 28px;
             background: var(--primary);
             color: white;
-            border-radius: 12px;
+            border-radius: 10px;
             font-weight: 600;
             text-decoration: none;
-            transition: var(--transition);
+            transition: all 0.3s ease;
             border: none;
             cursor: pointer;
             font-size: 1rem;
-            box-shadow: 0 8px 16px rgba(66, 133, 244, 0.3);
+            box-shadow: 0 5px 15px rgba(66, 133, 244, 0.3);
         }
 
         .publish-btn:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(66, 133, 244, 0.4);
+            box-shadow: 0 8px 20px rgba(66, 133, 244, 0.4);
         }
 
         /* Alternative Stores */
         .alt-stores {
-            max-width: 1200px;
-            margin: 0 auto 4rem;
-            padding: 3rem;
             background: var(--card-bg);
-            border-radius: 24px;
-            box-shadow: var(--shadow);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
         }
 
         .section-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 2rem;
-            color: var(--dark);
+            margin-bottom: 20px;
             position: relative;
             display: inline-block;
         }
@@ -234,7 +200,7 @@
             position: absolute;
             bottom: -8px;
             left: 0;
-            width: 60px;
+            width: 50px;
             height: 4px;
             background: linear-gradient(to right, var(--primary), var(--accent));
             border-radius: 2px;
@@ -242,16 +208,17 @@
 
         .store-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
         }
 
         .store-item {
-            padding: 1rem;
-            border-radius: 12px;
+            padding: 12px;
+            border-radius: 8px;
             background: rgba(245, 245, 245, 0.7);
-            transition: var(--transition);
+            transition: all 0.3s ease;
             font-weight: 500;
+            font-size: 0.95rem;
         }
 
         .store-item:hover {
@@ -262,54 +229,54 @@
         /* Contact Section */
         .contact-section {
             text-align: center;
-            padding: 4rem 5%;
+            padding: 50px 0;
             background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
         }
 
         .contact-title {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 15px;
             background: linear-gradient(to right, #4285F4, #EA4335);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .contact-subtitle {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto 2rem;
+            max-width: 500px;
+            margin: 0 auto 25px;
         }
 
         /* About Me */
         .about-me {
-            max-width: 1200px;
-            margin: 4rem auto;
-            padding: 3rem;
             background: var(--card-bg);
-            border-radius: 24px;
-            box-shadow: var(--shadow);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             text-align: center;
+            margin-bottom: 50px;
         }
 
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
+            gap: 12px;
+            margin-top: 25px;
             flex-wrap: wrap;
         }
 
         .social-link {
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1.5rem;
+            gap: 8px;
+            padding: 10px 18px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 500;
-            transition: var(--transition);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
         }
 
         .instagram { background: #f5f5f5; color: #E1306C; }
@@ -319,42 +286,114 @@
 
         .social-link:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
         }
 
-        /* Responsive */
-        @media (max-width: 992px) {
+        /* Desktop Optimizations */
+        @media (min-width: 768px) {
+            .hero {
+                padding: 120px 0;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero p {
+                font-size: 1.25rem;
+            }
+            
+            .cta-button {
+                padding: 16px 32px;
+                font-size: 1.1rem;
+            }
+            
             .play-card {
-                grid-template-columns: 1fr;
+                padding: 50px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+                align-items: center;
+            }
+            
+            .play-header {
+                margin-bottom: 30px;
+            }
+            
+            .play-icon {
+                font-size: 3rem;
+            }
+            
+            .play-title {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
             }
             
             .store-grid {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 15px;
+            }
+            
+            .store-item {
+                padding: 15px;
+                font-size: 1rem;
+            }
+            
+            .contact-title {
+                font-size: 2.5rem;
+            }
+            
+            .contact-subtitle {
+                font-size: 1.25rem;
+            }
+            
+            .publish-btn {
+                padding: 16px 32px;
+                font-size: 1.1rem;
+            }
+            
+            .social-link {
+                padding: 12px 20px;
+                font-size: 1rem;
             }
         }
 
-        @media (max-width: 768px) {
+        /* Mobile-Specific Optimizations */
+        @media (max-width: 480px) {
             .hero {
-                min-height: auto;
-                padding: 6rem 5%;
+                padding: 70px 0;
             }
             
-            .hero::before {
-                display: none;
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
             }
             
             .cta-group {
                 flex-direction: column;
+                align-items: center;
             }
             
-            .play-card, .alt-stores, .about-me {
-                padding: 2rem;
+            .cta-button {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+                margin: 5px 0;
             }
-        }
-
-        @media (max-width: 576px) {
+            
             .store-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            
+            .store-item {
+                font-size: 0.9rem;
+                padding: 10px;
             }
         }
     </style>
@@ -362,51 +401,54 @@
 <body>
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-content">
-            <h1>Elite App Publishing Service</h1>
-            <p>Get your app published on Google Play Store and 45+ alternative platforms with guaranteed approval and maximum visibility.</p>
-            <div class="cta-group">
-                <a href="#play-store" class="cta-button cta-primary">
-                    <i class="fab fa-google-play"></i> Publish on Play Store
-                </a>
-                <a href="#alt-stores" class="cta-button cta-secondary">
-                    <i class="fas fa-store"></i> View All Stores
-                </a>
+        <div class="container">
+            <div class="hero-content">
+                <h1>Professional App Publishing</h1>
+                <p>Get your app published on Google Play Store and 45+ alternative platforms with guaranteed approval</p>
+                <div class="cta-group">
+                    <a href="#play-store" class="cta-button cta-primary">
+                        <i class="fab fa-google-play"></i> Google Play
+                    </a>
+                    <a href="#alt-stores" class="cta-button cta-secondary">
+                        <i class="fas fa-store"></i> All Stores
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
-    <div class="main-content">
-        <!-- Google Play Card -->
-        <section class="play-card glass" id="play-store">
-            <div>
-                <div class="play-logo">
-                    <i class="fab fa-google-play play-logo-icon"></i>
-                    <span class="play-logo-text">Play Store</span>
+    <div class="container">
+        <!-- Play Store Section -->
+        <section class="play-section">
+            <div class="play-card" id="play-store">
+                <div>
+                    <div class="play-header">
+                        <i class="fab fa-google-play play-icon"></i>
+                        <h2 class="play-title">Play Store</h2>
+                    </div>
+                    <p>Expert publishing service for Google Play Store with optimized listings for maximum visibility and downloads.</p>
+                    
+                    <ul class="play-features">
+                        <li>100% Approval Guarantee</li>
+                        <li>Optimized Listings for More Downloads</li>
+                        <li>Fast Publishing (24-48 Hours)</li>
+                        <li>Policy Compliance Check</li>
+                        <li>Ongoing Support</li>
+                    </ul>
+                    
+                    <a href="https://wa.me/918602967573?text=Hi!%20I%20want%20to%20publish%20my%20app%20on%20Google%20Play%20Store" 
+                       class="publish-btn">
+                        <i class="fas fa-paper-plane"></i> Publish My App
+                    </a>
                 </div>
-                <h2>Professional Google Play Publishing</h2>
-                <p>I specialize in getting apps approved on Google Play Store with optimized listings for better visibility and downloads.</p>
-                
-                <ul class="play-features">
-                    <li>100% Approval Guarantee</li>
-                    <li>Optimized Listings for More Downloads</li>
-                    <li>Fast Publishing (24-48 Hours)</li>
-                    <li>Policy Compliance Check</li>
-                    <li>Ongoing Support</li>
-                </ul>
-            </div>
-            
-            <div style="text-align: center;">
-                <a href="https://wa.me/918602967573?text=Hi!%20I%20want%20to%20publish%20my%20app%20on%20Google%20Play%20Store" 
-                   class="publish-btn">
-                    <i class="fas fa-paper-plane"></i> Publish My App
-                </a>
-                <img src="https://i.imgur.com/JbQKZqA.png" alt="Play Store Screenshot" style="max-width: 100%; margin-top: 2rem; border-radius: 12px; box-shadow: var(--shadow);">
+                <div style="text-align: center; margin-top: 30px;">
+                    <img src="https://i.imgur.com/JbQKZqA.png" alt="Play Store Screenshot" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);">
+                </div>
             </div>
         </section>
 
         <!-- Alternative Stores -->
-        <section class="alt-stores glass" id="alt-stores">
+        <section class="alt-stores" id="alt-stores">
             <h2 class="section-title">Also Available On 45+ Stores</h2>
             <div class="store-grid">
                 <div class="store-item">APKPure</div>
@@ -438,7 +480,7 @@
                 <!-- Add all 45+ stores -->
             </div>
             
-            <div style="text-align: center; margin-top: 3rem;">
+            <div style="text-align: center; margin-top: 30px;">
                 <a href="https://wa.me/918602967573?text=Hi!%20I%20want%20to%20publish%20my%20app%20on%20multiple%20stores" 
                    class="publish-btn">
                     <i class="fas fa-store"></i> Publish on All Stores
@@ -448,18 +490,20 @@
 
         <!-- Contact Section -->
         <section class="contact-section">
-            <h2 class="contact-title">Ready to Publish Your App?</h2>
-            <p class="contact-subtitle">Get in touch directly via WhatsApp for fastest response</p>
-            <a href="https://wa.me/918602967573?text=Hi!%20I%20want%20to%20publish%20my%20app" 
-               class="publish-btn" style="display: inline-flex;">
-                <i class="fab fa-whatsapp"></i> Chat on WhatsApp
-            </a>
+            <div class="container">
+                <h2 class="contact-title">Ready to Publish Your App?</h2>
+                <p class="contact-subtitle">Get in touch directly via WhatsApp for fastest response</p>
+                <a href="https://wa.me/918602967573?text=Hi!%20I%20want%20to%20publish%20my%20app" 
+                   class="publish-btn" style="display: inline-flex;">
+                    <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                </a>
+            </div>
         </section>
 
         <!-- About Me -->
-        <section class="about-me glass">
-            <h2 style="margin-bottom: 1rem;">About The Publisher</h2>
-            <p style="max-width: 700px; margin: 0 auto 1.5rem; color: var(--gray);">
+        <section class="about-me">
+            <h2 style="margin-bottom: 15px;">About The Publisher</h2>
+            <p style="max-width: 700px; margin: 0 auto 20px; color: var(--gray);">
                 Hi, I'm <strong>Unknown Coder</strong>. I've helped hundreds of developers successfully publish their apps across multiple platforms with 100% approval rate.
             </p>
             
@@ -491,28 +535,7 @@
             });
         });
 
-        // Animate elements on scroll
-        const animateOnScroll = () => {
-            const elements = document.querySelectorAll('.glass');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = 1;
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            elements.forEach(el => {
-                el.style.opacity = 0;
-                el.style.transform = 'translateY(20px)';
-                el.style.transition = 'all 0.6s ease-out';
-                observer.observe(el);
-            });
-        };
-
-        window.addEventListener('load', animateOnScroll);
+        // Mobile menu toggle would go here if needed
     </script>
 </body>
 </html>
