@@ -1,296 +1,487 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>50+ App Stores में Free Publish करें | Google Play + Alternatives</title>
+    <title>Elite App Publishing | Google Play + 45 Stores</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #4A90E2; /* Professional Blue */
-            --primary-dark: #357ABD;
-            --secondary: #00C853; /* Green */
-            --accent: #FF6D00; /* Orange */
-            --dark: #263238;
-            --light: #f5f7fa;
+            --primary: #4285F4; /* Google Blue */
+            --primary-dark: #3367D6;
+            --accent: #EA4335; /* Google Red */
+            --light: #f8f9fa;
+            --dark: #202124;
+            --gray: #5f6368;
+            --card-bg: #ffffff;
+            --shadow: 0 12px 24px -6px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
-            background: var(--light);
+            background-color: var(--light);
             color: var(--dark);
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Header */
+        /* Glass Morphism Effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 80px 0;
-            text-align: center;
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #4285F4 0%, #3367D6 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 0 5%;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 300%;
+            height: 300%;
+            top: -100%;
+            left: -50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         .hero h1 {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
-        }
-
-        .hero .cta {
-            background: var(--secondary);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
             color: white;
-            padding: 15px 40px;
-            border-radius: 30px;
-            text-decoration: none;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            opacity: 0.9;
+            color: white;
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2.25rem;
+            border-radius: 50px;
             font-weight: 600;
-            display: inline-block;
-            margin-top: 30px;
-            transition: transform 0.3s;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1.05rem;
         }
 
-        .hero .cta:hover {
-            transform: translateY(-3px);
-        }
-
-        /* App Stores Grid */
-        .stores-section {
-            padding: 60px 20px;
-        }
-
-        .store-tier {
-            max-width: 1200px;
-            margin: 40px auto;
+        .cta-primary {
             background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            color: var(--primary);
+            box-shadow: var(--shadow);
         }
 
-        .tier-header {
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 32px -8px rgba(0,0,0,0.2);
+        }
+
+        .cta-secondary {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .cta-secondary:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* Main Content */
+        .main-content {
+            position: relative;
+            margin-top: -80px;
+            z-index: 10;
+            padding: 0 5%;
+        }
+
+        /* Play Store Card */
+        .play-card {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 3rem;
+            background: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .play-logo {
             display: flex;
             align-items: center;
-            margin-bottom: 25px;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .tier-icon {
-            font-size: 2rem;
-            margin-right: 15px;
+        .play-logo-icon {
+            font-size: 3.5rem;
             color: var(--primary);
+        }
+
+        .play-logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #4285F4, #34A853, #FBBC05, #EA4335);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .play-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .play-features li {
+            padding: 0.75rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .play-features li::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .publish-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 8px 16px rgba(66, 133, 244, 0.3);
+        }
+
+        .publish-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(66, 133, 244, 0.4);
+        }
+
+        /* Alternative Stores */
+        .alt-stores {
+            max-width: 1200px;
+            margin: 0 auto 4rem;
+            padding: 3rem;
+            background: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 2px;
         }
 
         .store-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
+            gap: 1rem;
         }
 
         .store-item {
-            padding: 12px;
-            border-radius: 8px;
-            background: var(--light);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s;
+            padding: 1rem;
+            border-radius: 12px;
+            background: rgba(245, 245, 245, 0.7);
+            transition: var(--transition);
+            font-weight: 500;
         }
 
         .store-item:hover {
-            transform: translateX(10px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: rgba(66, 133, 244, 0.1);
+            transform: translateY(-2px);
         }
 
-        .store-logo {
-            width: 30px;
-            height: 30px;
-            object-fit: contain;
-        }
-
-        /* Contact Form */
+        /* Contact Section */
         .contact-section {
-            background: linear-gradient(135deg, #f5f7fa, #e3e9f2);
-            padding: 60px 20px;
+            text-align: center;
+            padding: 4rem 5%;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
         }
 
-        .contact-card {
+        .contact-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #4285F4, #EA4335);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .contact-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray);
             max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 0 auto 2rem;
         }
 
-        .form-title {
+        /* About Me */
+        .about-me {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 3rem;
+            background: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
             text-align: center;
-            color: var(--primary);
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-
-        .submit-btn {
-            background: var(--secondary);
-            color: white;
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        /* About Section */
-        .about-section {
-            text-align: center;
-            padding: 60px 20px;
-            background: var(--dark);
-            color: white;
         }
 
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
         }
 
         .social-link {
-            background: var(--primary);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
-            text-decoration: none;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .instagram { background: #f5f5f5; color: #E1306C; }
+        .twitter { background: #f5f5f5; color: #1DA1F2; }
+        .github { background: #f5f5f5; color: #333; }
+        .whatsapp { background: #25D366; color: white; }
+
+        .social-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .play-card {
+                grid-template-columns: 1fr;
+            }
+            
+            .store-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                min-height: auto;
+                padding: 6rem 5%;
+            }
+            
+            .hero::before {
+                display: none;
+            }
+            
+            .cta-group {
+                flex-direction: column;
+            }
+            
+            .play-card, .alt-stores, .about-me {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .store-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Hero Section -->
     <section class="hero">
-        <h1>50+ App Stores में Publish करें</h1>
-        <p>Google Play + APKPure, Aptoide, Galaxy Store, और 47+ अन्य स्टोर्स में Free में अपना App लाइव करें</p>
-        <a href="#contact" class="cta">अभी Publish करें →</a>
+        <div class="hero-content">
+            <h1>Elite App Publishing Service</h1>
+            <p>Get your app published on Google Play Store and 45+ alternative platforms with guaranteed approval and maximum visibility.</p>
+            <div class="cta-group">
+                <a href="#play-store" class="cta-button cta-primary">
+                    <i class="fab fa-google-play"></i> Publish on Play Store
+                </a>
+                <a href="#alt-stores" class="cta-button cta-secondary">
+                    <i class="fas fa-store"></i> View All Stores
+                </a>
+            </div>
+        </div>
     </section>
 
-    <section class="stores-section">
-        <!-- Tier 1 - Major Stores -->
-        <div class="store-tier">
-            <div class="tier-header">
-                <i class="fas fa-crown tier-icon"></i>
-                <h2>Top App Stores</h2>
+    <div class="main-content">
+        <!-- Google Play Card -->
+        <section class="play-card glass" id="play-store">
+            <div>
+                <div class="play-logo">
+                    <i class="fab fa-google-play play-logo-icon"></i>
+                    <span class="play-logo-text">Play Store</span>
+                </div>
+                <h2>Professional Google Play Publishing</h2>
+                <p>I specialize in getting apps approved on Google Play Store with optimized listings for better visibility and downloads.</p>
+                
+                <ul class="play-features">
+                    <li>100% Approval Guarantee</li>
+                    <li>Optimized Listings for More Downloads</li>
+                    <li>Fast Publishing (24-48 Hours)</li>
+                    <li>Policy Compliance Check</li>
+                    <li>Ongoing Support</li>
+                </ul>
             </div>
+            
+            <div style="text-align: center;">
+                <a href="https://wa.me/918602967573?text=Hi!%20I%20want%20to%20publish%20my%20app%20on%20Google%20Play%20Store" 
+                   class="publish-btn">
+                    <i class="fas fa-paper-plane"></i> Publish My App
+                </a>
+                <img src="https://i.imgur.com/JbQKZqA.png" alt="Play Store Screenshot" style="max-width: 100%; margin-top: 2rem; border-radius: 12px; box-shadow: var(--shadow);">
+            </div>
+        </section>
+
+        <!-- Alternative Stores -->
+        <section class="alt-stores glass" id="alt-stores">
+            <h2 class="section-title">Also Available On 45+ Stores</h2>
             <div class="store-grid">
-                <div class="store-item">
-                    <img src="https://img.icons8.com/color/48/google-play.png" class="store-logo" alt="Play Store">
-                    Google Play
-                </div>
-                <!-- Add similar divs for other stores -->
-                <div class="store-item">
-                    <img src="https://img.icons8.com/color/48/apkpure.png" class="store-logo">
-                    APKPure
-                </div>
-                <div class="store-item">
-                    <img src="https://img.icons8.com/color/48/amazon-appstore.png" class="store-logo">
-                    Amazon Appstore
-                </div>
-                <!-- Add all other stores similarly -->
+                <div class="store-item">APKPure</div>
+                <div class="store-item">Aptoide</div>
+                <div class="store-item">Amazon Appstore</div>
+                <div class="store-item">Samsung Galaxy Store</div>
+                <div class="store-item">Huawei AppGallery</div>
+                <div class="store-item">Uptodown</div>
+                <div class="store-item">APKMirror</div>
+                <div class="store-item">F-Droid</div>
+                <div class="store-item">Tencent MyApp</div>
+                <div class="store-item">GetJar</div>
+                <div class="store-item">SlideME</div>
+                <div class="store-item">ACMarket</div>
+                <div class="store-item">Yalp Store</div>
+                <div class="store-item">QooApp</div>
+                <div class="store-item">TapTap</div>
+                <div class="store-item">Aurora Store</div>
+                <div class="store-item">AppBrain</div>
+                <div class="store-item">9Apps</div>
+                <div class="store-item">Xiaomi App Store</div>
+                <div class="store-item">Oppo App Market</div>
+                <div class="store-item">Vivo App Store</div>
+                <div class="store-item">Lenovo App Store</div>
+                <div class="store-item">Baidu Mobile Assistant</div>
+                <div class="store-item">APKMonk</div>
+                <div class="store-item">APKHere</div>
+                <div class="store-item">APK4Fun</div>
+                <!-- Add all 45+ stores -->
             </div>
-        </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="https://wa.me/918602967573?text=Hi!%20I%20want%20to%20publish%20my%20app%20on%20multiple%20stores" 
+                   class="publish-btn">
+                    <i class="fas fa-store"></i> Publish on All Stores
+                </a>
+            </div>
+        </section>
 
-        <!-- Tier 2 - Regional Stores -->
-        <div class="store-tier">
-            <div class="tier-header">
-                <i class="fas fa-globe-asia tier-icon"></i>
-                <h2>Regional Stores</h2>
-            </div>
-            <div class="store-grid">
-                <div class="store-item">
-                    <img src="https://img.icons8.com/color/48/huawei-app-gallery.png" class="store-logo">
-                    Huawei AppGallery
-                </div>
-                <!-- Add Xiaomi, Oppo, Vivo etc -->
-            </div>
-        </div>
-
-        <!-- Tier 3 - Niche Stores -->
-        <div class="store-tier">
-            <div class="tier-header">
-                <i class="fas fa-toolbox tier-icon"></i>
-                <h2>Specialized Platforms</h2>
-            </div>
-            <div class="store-grid">
-                <div class="store-item">
-                    <img src="https://img.icons8.com/color/48/android-os.png" class="store-logo">
-                    XDA Labs
-                </div>
-                <!-- Add other niche stores -->
-            </div>
-        </div>
-    </section>
-
-    <section class="contact-section" id="contact">
-        <div class="contact-card">
-            <h2 class="form-title">अपना App Publish करें</h2>
-            <form id="publishForm">
-                <div class="form-group">
-                    <input type="text" placeholder="आपका नाम" required>
-                </div>
-                <div class="form-group">
-                    <input type="email" placeholder="ईमेल पता" required>
-                </div>
-                <div class="form-group">
-                    <textarea placeholder="आपके App के बारे में जानकारी" rows="5" required></textarea>
-                </div>
-                <button type="submit" class="submit-btn">मुफ्त में Publish करें →</button>
-            </form>
-        </div>
-    </section>
-
-    <section class="about-section">
-        <h3>मेरे बारे में</h3>
-        <p>मैं Unknown Coder - 4+ सालों से 1000+ Apps Publish कर चुका हूं</p>
-        <div class="social-links">
-            <a href="https://wa.me/918602967573" class="social-link">
-                <i class="fab fa-whatsapp"></i> WhatsApp
+        <!-- Contact Section -->
+        <section class="contact-section">
+            <h2 class="contact-title">Ready to Publish Your App?</h2>
+            <p class="contact-subtitle">Get in touch directly via WhatsApp for fastest response</p>
+            <a href="https://wa.me/918602967573?text=Hi!%20I%20want%20to%20publish%20my%20app" 
+               class="publish-btn" style="display: inline-flex;">
+                <i class="fab fa-whatsapp"></i> Chat on WhatsApp
             </a>
-            <a href="https://www.instagram.com/unknown_coder1x" class="social-link">
-                <i class="fab fa-instagram"></i> Instagram
-            </a>
-            <a href="https://github.com/puffxhost" class="social-link">
-                <i class="fab fa-github"></i> GitHub
-            </a>
-        </div>
-        <p style="margin-top: 20px;">📞 सीधे बात करें: +91 8602967573</p>
-    </section>
+        </section>
+
+        <!-- About Me -->
+        <section class="about-me glass">
+            <h2 style="margin-bottom: 1rem;">About The Publisher</h2>
+            <p style="max-width: 700px; margin: 0 auto 1.5rem; color: var(--gray);">
+                Hi, I'm <strong>Unknown Coder</strong>. I've helped hundreds of developers successfully publish their apps across multiple platforms with 100% approval rate.
+            </p>
+            
+            <div class="social-links">
+                <a href="https://www.instagram.com/unknown_coder1x" class="social-link instagram" target="_blank">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+                <a href="https://x.com/puffxhost1x" class="social-link twitter" target="_blank">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+                <a href="https://github.com/puffxhost" class="social-link github" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="tel:+918602967573" class="social-link whatsapp">
+                    <i class="fas fa-phone"></i> +91 8602967573
+                </a>
+            </div>
+        </section>
+    </div>
 
     <script>
-        document.getElementById('publishForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const phoneNumber = '918602967573';
-            const message = 'नमस्ते! मैं अपना App 50+ Stores में Publish करना चाहता हूं।';
-            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
-        });
-
-        // Add smooth scrolling
+        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -300,22 +491,28 @@
             });
         });
 
-        // Add animation on scroll
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        });
+        // Animate elements on scroll
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.glass');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
 
-        document.querySelectorAll('.store-tier').forEach((el) => {
-            el.style.opacity = 0;
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'all 0.6s ease-out';
-            observer.observe(el);
-        });
+            elements.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.6s ease-out';
+                observer.observe(el);
+            });
+        };
+
+        window.addEventListener('load', animateOnScroll);
     </script>
 </body>
 </html>
