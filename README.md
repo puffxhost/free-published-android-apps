@@ -73,3 +73,8 @@ This repository is licensed under the **MIT License** — free for personal and 
 🌐 puffxhost.com  
 📧 support@puffxhost.com  
 📸 @unknown_coder1x  
+
+<hr>
+<p align="center">
+  Developed with ❤️ by <strong>Nitin Mehta</strong>
+</p>
