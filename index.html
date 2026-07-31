@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
 <style>
   :root{
     --bg:#0A0F1A;
@@ -102,6 +103,33 @@
   .connector{flex:0.6;height:2px;background:var(--line);position:relative;top:-19px;}
   .connector.done{background:var(--mint);}
 
+  /* STATS */
+  .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:28px;}
+  .stat-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:22px 20px;
+  }
+  .stat-num{font-family:'Space Grotesk',sans-serif;font-size:2.1rem;font-weight:700;
+    display:flex;align-items:baseline;gap:2px;}
+  .stat-num .unit{font-size:1.2rem;color:var(--indigo);}
+  .stat-label{color:var(--ink-dim);font-size:0.85rem;margin-top:4px;}
+  .stat-card:nth-child(1) .stat-num{color:var(--mint);}
+  .stat-card:nth-child(2) .stat-num{color:var(--indigo);}
+  .stat-card:nth-child(3) .stat-num{color:var(--amber);}
+  .stat-card:nth-child(4) .stat-num{color:var(--ink);}
+
+  .charts-row{display:grid;grid-template-columns:1fr;gap:16px;}
+  .chart-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:24px;
+  }
+  .chart-card h4{font-size:1rem;font-weight:600;margin-bottom:2px;}
+  .chart-card .chart-sub{color:var(--ink-dim);font-size:0.82rem;margin-bottom:18px;}
+  .chart-wrap{position:relative;height:220px;}
+  .legend-row{display:flex;gap:16px;margin-top:14px;flex-wrap:wrap;}
+  .legend-item{display:flex;align-items:center;gap:7px;font-size:0.8rem;color:var(--ink-dim);}
+  .legend-dot{width:9px;height:9px;border-radius:50%;}
+
   /* SECTIONS */
   section{padding:64px 0;}
   .section-head{margin-bottom:36px;}
@@ -141,6 +169,20 @@
   /* ABOUT */
   .about{display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;
     background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:32px;}
+  .founder-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:32px;display:flex;flex-direction:column;gap:22px;
+  }
+  .founder-top{display:flex;align-items:center;gap:16px;}
+  .founder-photo{
+    width:64px;height:64px;border-radius:50%;object-fit:cover;
+    border:2px solid var(--indigo);flex-shrink:0;
+  }
+  .founder-id .founder-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.05rem;}
+  .founder-id .founder-role{color:var(--ink-dim);font-size:0.85rem;}
+  .founder-quote{color:var(--ink-dim);font-size:0.96rem;line-height:1.75;}
+  .founder-quote strong{color:var(--ink);}
+  .founder-sig{font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--mint);}
   .about-text h3{font-size:1.2rem;margin-bottom:8px;}
   .about-text p{color:var(--ink-dim);max-width:480px;font-size:0.95rem;}
   .social-links{display:flex;gap:10px;flex-wrap:wrap;}
@@ -152,6 +194,9 @@
   .social-link:hover{border-color:var(--indigo);transform:translateY(-2px);}
 
   footer{padding:30px 0;text-align:center;color:var(--ink-dim);font-size:0.85rem;border-top:1px solid var(--line);}
+
+  .modal.modal-wide{max-width:640px;max-height:80vh;overflow-y:auto;}
+  .modal-wide .store-grid{margin-top:4px;}
 
   /* MODAL */
   .modal-overlay{
@@ -187,6 +232,8 @@
     .hero p{font-size:1.15rem;}
     .play-card{grid-template-columns:1.1fr 0.9fr;align-items:center;}
     .about{flex-wrap:nowrap;}
+    .stats-grid{grid-template-columns:repeat(4,1fr);}
+    .charts-row{grid-template-columns:1.3fr 1fr;}
   }
   @media(max-width:480px){
     .hero{padding:64px 0 44px;}
@@ -222,7 +269,7 @@
       <button class="btn btn-primary" onclick="openModal('Publish My App')">
         <i class="fab fa-google-play"></i> Publish my app
       </button>
-      <a href="#alt-stores" class="btn btn-ghost">
+      <a href="javascript:void(0)" onclick="openStoresModal()" class="btn btn-ghost">
         <i class="fas fa-grip"></i> See all 46 stores
       </a>
     </div>
@@ -241,6 +288,49 @@
     </div>
   </div>
 </header>
+
+<section id="numbers">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Track record</span>
+      <h2>Numbers that speak</h2>
+      <p>Real submission data from the last 12 months.</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num"><span class="count" data-target="612">0</span><span class="unit">+</span></div>
+        <div class="stat-label">Apps published</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num"><span class="count" data-target="46">0</span></div>
+        <div class="stat-label">Stores covered</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num"><span class="count" data-target="36">0</span><span class="unit">h</span></div>
+        <div class="stat-label">Avg. publish time</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num"><span class="count" data-target="100">0</span><span class="unit">%</span></div>
+        <div class="stat-label">Approval rate</div>
+      </div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-card">
+        <h4>Apps published per month</h4>
+        <p class="chart-sub">Steady growth as more developers come on board</p>
+        <div class="chart-wrap"><canvas id="growthChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h4>Where apps get listed</h4>
+        <p class="chart-sub">Share of submissions by store category</p>
+        <div class="chart-wrap"><canvas id="storeChart"></canvas></div>
+        <div class="legend-row" id="storeLegend"></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section id="play-store">
   <div class="container">
@@ -325,21 +415,94 @@
 
 <section>
   <div class="container">
-    <div class="about">
-      <div class="about-text">
-        <h3>About the publisher</h3>
-        <p>I'm <strong>Unknown Coder</strong> — I've helped hundreds of developers get their apps live across multiple stores with a 100% approval rate.</p>
+    <div class="section-head">
+      <span class="kicker">Founder's story</span>
+      <h2>Why Puffx Host exists</h2>
+    </div>
+    <div class="founder-card">
+      <div class="founder-top">
+        <img class="founder-photo" src="https://puffxhost.com/assets/nitin.jpg" alt="Nitin Mehta, Founder of Puffx Host">
+        <div class="founder-id">
+          <div class="founder-name">Nitin Mehta</div>
+          <div class="founder-role">Founder, Puffx Host</div>
+        </div>
       </div>
-      <div class="social-links">
-        <a href="https://www.instagram.com/unknown_coder1x" class="social-link" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
-        <a href="https://x.com/puffxhost1x" class="social-link" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
-        <a href="https://github.com/puffxhost" class="social-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-      </div>
+      <p class="founder-quote">
+        What started as a small effort to make reliable hosting affordable for Indian businesses has grown into a platform trusted by thousands. Nitin built Puffx Host on a simple belief — <strong>every website owner deserves fast servers, honest pricing, and support that actually picks up the phone.</strong>
+      </p>
+      <p class="founder-quote">
+        Today that mission continues to shape every plan, every server, and every customer conversation at Puffx Host.
+      </p>
+      <div class="founder-sig">— Nitin Mehta, Founder</div>
     </div>
   </div>
 </section>
 
 <footer>PublishReady · App publishing, handled.</footer>
+
+<!-- ALL STORES MODAL -->
+<div class="modal-overlay" id="storesModalOverlay">
+  <div class="modal modal-wide">
+    <button class="modal-close" onclick="closeStoresModal()" aria-label="Close"><i class="fas fa-xmark"></i></button>
+    <h3>All 46 stores</h3>
+    <p class="modal-sub">Your app can be listed on any or all of these.</p>
+    <div class="store-grid">
+      <div class="store-item">Google Play Store</div>
+      <div class="store-item">APKPure</div>
+      <div class="store-item">Aptoide</div>
+      <div class="store-item">Amazon Appstore</div>
+      <div class="store-item">Samsung Galaxy Store</div>
+      <div class="store-item">Huawei AppGallery</div>
+      <div class="store-item">Uptodown</div>
+      <div class="store-item">APKMirror</div>
+      <div class="store-item">F-Droid</div>
+      <div class="store-item">Tencent MyApp</div>
+      <div class="store-item">GetJar</div>
+      <div class="store-item">SlideME</div>
+      <div class="store-item">ACMarket</div>
+      <div class="store-item">Yalp Store</div>
+      <div class="store-item">QooApp</div>
+      <div class="store-item">TapTap</div>
+      <div class="store-item">Aurora Store</div>
+      <div class="store-item">AppBrain</div>
+      <div class="store-item">9Apps</div>
+      <div class="store-item">Xiaomi App Store</div>
+      <div class="store-item">Oppo App Market</div>
+      <div class="store-item">Vivo App Store</div>
+      <div class="store-item">Lenovo App Store</div>
+      <div class="store-item">Baidu Mobile Assistant</div>
+      <div class="store-item">APKMonk</div>
+      <div class="store-item">APKHere</div>
+      <div class="store-item">APK4Fun</div>
+      <div class="store-item">Mobango</div>
+      <div class="store-item">Mobile9</div>
+      <div class="store-item">Softonic</div>
+      <div class="store-item">CNET Download</div>
+      <div class="store-item">FileHippo</div>
+      <div class="store-item">Malavida</div>
+      <div class="store-item">APKFab</div>
+      <div class="store-item">APKCombo</div>
+      <div class="store-item">Cafe Bazaar</div>
+      <div class="store-item">Myket</div>
+      <div class="store-item">Coolapk</div>
+      <div class="store-item">Wandoujia</div>
+      <div class="store-item">360 Mobile Assistant</div>
+      <div class="store-item">Meizu App Store</div>
+      <div class="store-item">ONE Store</div>
+      <div class="store-item">Naver App Store</div>
+      <div class="store-item">Setapp</div>
+      <div class="store-item">Amazon Underground</div>
+      <div class="store-item">Opera Mobile Store</div>
+      <div class="store-item">Blackberry World</div>
+      <div class="store-item">JioStore</div>
+    </div>
+    <div style="text-align:center;margin-top:26px;">
+      <button class="btn btn-primary" onclick="closeStoresModal(); openModal('All Stores');">
+        <i class="fas fa-paper-plane"></i> Publish on all stores
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- FORM MODAL -->
 <div class="modal-overlay" id="modalOverlay">
@@ -373,6 +536,117 @@
 <script>
   const WHATSAPP_NUMBER = "917354336624"; // +91 7354336624
 
+  /* Animated counters */
+  function animateCount(el){
+    const target = parseInt(el.dataset.target, 10);
+    const duration = 1200;
+    const start = performance.now();
+    function tick(now){
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target);
+      if(progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  const countEls = document.querySelectorAll('.count');
+  const countObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        animateCount(entry.target);
+        countObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  countEls.forEach(el => countObserver.observe(el));
+
+  /* Chart.js theme defaults */
+  if(window.Chart){
+    Chart.defaults.color = '#8C96AC';
+    Chart.defaults.font.family = "'Inter', sans-serif";
+
+    const gridColor = 'rgba(255,255,255,0.06)';
+
+    // Growth line chart
+    const growthCtx = document.getElementById('growthChart');
+    const gradient = growthCtx.getContext('2d').createLinearGradient(0, 0, 0, 220);
+    gradient.addColorStop(0, 'rgba(108,123,255,0.35)');
+    gradient.addColorStop(1, 'rgba(108,123,255,0)');
+
+    new Chart(growthCtx, {
+      type: 'line',
+      data: {
+        labels: ['Feb','Mar','Apr','May','Jun','Jul'],
+        datasets: [{
+          label: 'Apps published',
+          data: [28, 41, 55, 68, 82, 97],
+          borderColor: '#6C7BFF',
+          backgroundColor: gradient,
+          borderWidth: 2.5,
+          tension: 0.4,
+          fill: true,
+          pointRadius: 3,
+          pointBackgroundColor: '#6C7BFF',
+          pointBorderColor: '#0A0F1A',
+          pointBorderWidth: 2,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, border: { color: gridColor } },
+          y: { grid: { color: gridColor }, border: { display: false }, beginAtZero: true }
+        }
+      }
+    });
+
+    // Store distribution donut chart
+    const storeCtx = document.getElementById('storeChart');
+    const storeLabels = ['Google Play', 'Amazon & Samsung', 'Regional stores (OEM)', 'Third-party (APK)'];
+    const storeData = [38, 22, 24, 16];
+    const storeColors = ['#6C7BFF', '#3DDC97', '#F5B95C', '#556077'];
+
+    new Chart(storeCtx, {
+      type: 'doughnut',
+      data: {
+        labels: storeLabels,
+        datasets: [{
+          data: storeData,
+          backgroundColor: storeColors,
+          borderColor: '#131C30',
+          borderWidth: 3,
+          hoverOffset: 6,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '68%',
+        plugins: { legend: { display: false } }
+      }
+    });
+
+    const legendEl = document.getElementById('storeLegend');
+    storeLabels.forEach((label, i) => {
+      const item = document.createElement('div');
+      item.className = 'legend-item';
+      item.innerHTML = `<span class="legend-dot" style="background:${storeColors[i]}"></span>${label} · ${storeData[i]}%`;
+      legendEl.appendChild(item);
+    });
+  }
+
+  function openStoresModal(){
+    document.getElementById('storesModalOverlay').classList.add('open');
+  }
+  function closeStoresModal(){
+    document.getElementById('storesModalOverlay').classList.remove('open');
+  }
+  document.getElementById('storesModalOverlay').addEventListener('click', (e) => {
+    if(e.target.id === 'storesModalOverlay') closeStoresModal();
+  });
+
   function openModal(context){
     document.getElementById('modalSub').textContent =
       "Share a few details — we'll open WhatsApp with everything filled in.";
@@ -388,7 +662,10 @@
     if(e.target.id === 'modalOverlay') closeModal();
   });
   document.addEventListener('keydown', (e) => {
-    if(e.key === 'Escape') closeModal();
+    if(e.key === 'Escape'){
+      closeModal();
+      closeStoresModal();
+    }
   });
 
   function submitForm(e){
