@@ -1,541 +1,422 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro App Publishing | Google Play + 45 Stores</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #4285F4; /* Google Blue */
-            --primary-dark: #3367D6;
-            --accent: #EA4335; /* Google Red */
-            --light: #f8f9fa;
-            --dark: #202124;
-            --gray: #5f6368;
-            --card-bg: #ffffff;
-            --mobile-breakpoint: 768px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Publish Ready — App Store Publishing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root{
+    --bg:#0A0F1A;
+    --bg-soft:#0F1626;
+    --panel:#131C30;
+    --line:rgba(255,255,255,0.08);
+    --ink:#EDF1F8;
+    --ink-dim:#8C96AC;
+    --mint:#3DDC97;   /* "approved / live" signal */
+    --indigo:#6C7BFF;  /* primary accent */
+    --amber:#F5B95C;   /* pending / review */
+    --radius:16px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;letter-spacing:-0.02em;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .container{width:100%;max-width:1080px;margin:0 auto;padding:0 24px;}
+  a{color:inherit;}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        }
+  /* background texture */
+  body{
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(108,123,255,0.16), transparent 45%),
+      radial-gradient(circle at 100% 20%, rgba(61,220,151,0.10), transparent 40%);
+    background-attachment:fixed;
+  }
 
-        body {
-            background-color: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
+  /* NAV */
+  .nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(10,15,26,0.75);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:1080px;margin:0 auto;}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.05rem;font-family:'Space Grotesk',sans-serif;}
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--mint);box-shadow:0 0 10px var(--mint);}
+  .nav-cta{
+    background:var(--indigo);color:#fff;border:none;padding:10px 18px;border-radius:10px;
+    font-weight:600;font-size:0.9rem;cursor:pointer;transition:.2s;
+  }
+  .nav-cta:hover{filter:brightness(1.1);transform:translateY(-1px);}
 
-        /* Mobile-First Base Styles */
-        .container {
-            width: 100%;
-            padding: 0 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+  /* HERO */
+  .hero{padding:88px 0 64px;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--mint);
+    background:rgba(61,220,151,0.08);border:1px solid rgba(61,220,151,0.25);
+    padding:6px 12px;border-radius:100px;margin-bottom:22px;
+  }
+  .eyebrow .blink{width:6px;height:6px;border-radius:50%;background:var(--mint);animation:blink 1.6s infinite;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+  .hero h1{font-size:2.5rem;font-weight:700;max-width:680px;margin-bottom:20px;}
+  .hero h1 span{color:var(--indigo);}
+  .hero p{color:var(--ink-dim);font-size:1.08rem;max-width:540px;margin-bottom:34px;}
+  .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:14px 24px;border-radius:12px;font-weight:600;font-size:0.95rem;
+    text-decoration:none;border:none;cursor:pointer;transition:.2s;
+  }
+  .btn-primary{background:var(--indigo);color:#fff;box-shadow:0 8px 24px rgba(108,123,255,0.35);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(108,123,255,0.45);}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line);}
+  .btn-ghost:hover{background:rgba(255,255,255,0.04);}
 
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 80px 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
+  /* PIPELINE — signature element */
+  .pipeline{
+    margin-top:56px;background:var(--panel);border:1px solid var(--line);
+    border-radius:var(--radius);padding:26px;overflow-x:auto;
+  }
+  .pipeline-label{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--ink-dim);margin-bottom:18px;}
+  .stages{display:flex;align-items:center;min-width:560px;}
+  .stage{flex:1;text-align:center;position:relative;}
+  .stage .node{
+    width:38px;height:38px;border-radius:50%;margin:0 auto 10px;
+    display:flex;align-items:center;justify-content:center;font-size:0.85rem;
+    border:2px solid var(--line);color:var(--ink-dim);background:var(--bg-soft);
+  }
+  .stage.done .node{border-color:var(--mint);color:var(--mint);background:rgba(61,220,151,0.1);}
+  .stage.active .node{border-color:var(--amber);color:var(--amber);background:rgba(245,185,92,0.1);}
+  .stage-name{font-size:0.82rem;color:var(--ink-dim);}
+  .stage.done .stage-name{color:var(--ink);}
+  .connector{flex:0.6;height:2px;background:var(--line);position:relative;top:-19px;}
+  .connector.done{background:var(--mint);}
 
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
+  /* SECTIONS */
+  section{padding:64px 0;}
+  .section-head{margin-bottom:36px;}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--indigo);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:block;}
+  .section-head h2{font-size:1.9rem;font-weight:700;}
+  .section-head p{color:var(--ink-dim);margin-top:10px;max-width:520px;}
 
-        .hero h1 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
+  /* PLAY CARD */
+  .play-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:36px;display:grid;grid-template-columns:1fr;gap:28px;
+  }
+  .play-top{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+  .play-top i{font-size:1.7rem;color:var(--mint);}
+  .play-top h3{font-size:1.3rem;}
+  .feat-list{list-style:none;display:grid;gap:12px;margin-bottom:26px;}
+  .feat-list li{display:flex;gap:10px;color:var(--ink-dim);font-size:0.95rem;}
+  .feat-list li i{color:var(--mint);margin-top:4px;font-size:0.85rem;}
 
-        .hero p {
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto 30px;
-            opacity: 0.9;
-        }
+  /* STORE GRID */
+  .store-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
+  .store-item{
+    padding:14px;border-radius:10px;background:var(--panel);border:1px solid var(--line);
+    font-size:0.88rem;color:var(--ink-dim);transition:.2s;
+  }
+  .store-item:hover{border-color:var(--indigo);color:var(--ink);transform:translateY(-2px);}
 
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 28px;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            margin: 5px;
-        }
+  /* PRICING style strip */
+  .cta-strip{
+    background:linear-gradient(135deg, rgba(108,123,255,0.12), rgba(61,220,151,0.08));
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:44px;text-align:center;
+  }
+  .cta-strip h2{font-size:1.7rem;margin-bottom:12px;}
+  .cta-strip p{color:var(--ink-dim);margin-bottom:26px;}
 
-        .cta-primary {
-            background: white;
-            color: var(--primary);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+  /* ABOUT */
+  .about{display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:32px;}
+  .about-text h3{font-size:1.2rem;margin-bottom:8px;}
+  .about-text p{color:var(--ink-dim);max-width:480px;font-size:0.95rem;}
+  .social-links{display:flex;gap:10px;flex-wrap:wrap;}
+  .social-link{
+    display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:100px;
+    background:var(--bg-soft);border:1px solid var(--line);font-size:0.88rem;text-decoration:none;color:var(--ink);
+    transition:.2s;
+  }
+  .social-link:hover{border-color:var(--indigo);transform:translateY(-2px);}
 
-        .cta-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
+  footer{padding:30px 0;text-align:center;color:var(--ink-dim);font-size:0.85rem;border-top:1px solid var(--line);}
 
-        .cta-secondary {
-            background: rgba(255,255,255,0.15);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-            backdrop-filter: blur(5px);
-        }
+  /* MODAL */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(6,9,16,0.72);backdrop-filter:blur(4px);
+    display:none;align-items:center;justify-content:center;z-index:100;padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    width:100%;max-width:420px;padding:30px;position:relative;
+    animation:modalIn .25s ease;
+  }
+  @keyframes modalIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+  .modal-close{
+    position:absolute;top:18px;right:18px;background:none;border:none;color:var(--ink-dim);
+    font-size:1.1rem;cursor:pointer;
+  }
+  .modal-close:hover{color:var(--ink);}
+  .modal h3{font-size:1.25rem;margin-bottom:6px;}
+  .modal-sub{color:var(--ink-dim);font-size:0.88rem;margin-bottom:24px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:0.82rem;color:var(--ink-dim);margin-bottom:6px;}
+  .field input{
+    width:100%;padding:12px 14px;background:var(--bg-soft);border:1px solid var(--line);
+    border-radius:10px;color:var(--ink);font-size:0.95rem;font-family:'Inter',sans-serif;
+  }
+  .field input:focus{outline:none;border-color:var(--indigo);}
+  .field-error{color:#F87171;font-size:0.78rem;margin-top:6px;display:none;}
+  .modal-submit{width:100%;justify-content:center;margin-top:6px;}
 
-        .cta-secondary:hover {
-            background: rgba(255,255,255,0.25);
-        }
+  @media(min-width:768px){
+    .hero h1{font-size:3.3rem;}
+    .hero p{font-size:1.15rem;}
+    .play-card{grid-template-columns:1.1fr 0.9fr;align-items:center;}
+    .about{flex-wrap:nowrap;}
+  }
+  @media(max-width:480px){
+    .hero{padding:64px 0 44px;}
+    .hero h1{font-size:2rem;}
+    .hero-ctas{flex-direction:column;}
+    .btn{width:100%;justify-content:center;}
+  }
 
-        /* Play Store Section */
-        .play-section {
-            margin-top: -40px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .play-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-
-        .play-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .play-icon {
-            font-size: 2.5rem;
-            color: var(--primary);
-        }
-
-        .play-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(to right, #4285F4, #34A853, #FBBC05, #EA4335);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .play-features {
-            margin: 25px 0;
-        }
-
-        .play-features li {
-            padding: 10px 0;
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .play-features li::before {
-            content: '✓';
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        .publish-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 28px;
-            background: var(--primary);
-            color: white;
-            border-radius: 10px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            box-shadow: 0 5px 15px rgba(66, 133, 244, 0.3);
-        }
-
-        .publish-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(66, 133, 244, 0.4);
-        }
-
-        /* Alternative Stores */
-        .alt-stores {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 50px;
-            height: 4px;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            border-radius: 2px;
-        }
-
-        .store-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 12px;
-        }
-
-        .store-item {
-            padding: 12px;
-            border-radius: 8px;
-            background: rgba(245, 245, 245, 0.7);
-            transition: all 0.3s ease;
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        .store-item:hover {
-            background: rgba(66, 133, 244, 0.1);
-            transform: translateY(-2px);
-        }
-
-        /* Contact Section */
-        .contact-section {
-            text-align: center;
-            padding: 50px 0;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-        }
-
-        .contact-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            background: linear-gradient(to right, #4285F4, #EA4335);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .contact-subtitle {
-            font-size: 1.1rem;
-            color: var(--gray);
-            max-width: 500px;
-            margin: 0 auto 25px;
-        }
-
-        /* About Me */
-        .about-me {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
-
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 18px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-        }
-
-        .instagram { background: #f5f5f5; color: #E1306C; }
-        .twitter { background: #f5f5f5; color: #1DA1F2; }
-        .github { background: #f5f5f5; color: #333; }
-        .whatsapp { background: #25D366; color: white; }
-
-        .social-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-        }
-
-        /* Desktop Optimizations */
-        @media (min-width: 768px) {
-            .hero {
-                padding: 120px 0;
-            }
-            
-            .hero h1 {
-                font-size: 3rem;
-            }
-            
-            .hero p {
-                font-size: 1.25rem;
-            }
-            
-            .cta-button {
-                padding: 16px 32px;
-                font-size: 1.1rem;
-            }
-            
-            .play-card {
-                padding: 50px;
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 40px;
-                align-items: center;
-            }
-            
-            .play-header {
-                margin-bottom: 30px;
-            }
-            
-            .play-icon {
-                font-size: 3rem;
-            }
-            
-            .play-title {
-                font-size: 2.2rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .store-grid {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-                gap: 15px;
-            }
-            
-            .store-item {
-                padding: 15px;
-                font-size: 1rem;
-            }
-            
-            .contact-title {
-                font-size: 2.5rem;
-            }
-            
-            .contact-subtitle {
-                font-size: 1.25rem;
-            }
-            
-            .publish-btn {
-                padding: 16px 32px;
-                font-size: 1.1rem;
-            }
-            
-            .social-link {
-                padding: 12px 20px;
-                font-size: 1rem;
-            }
-        }
-
-        /* Mobile-Specific Optimizations */
-        @media (max-width: 480px) {
-            .hero {
-                padding: 70px 0;
-            }
-            
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
-            .cta-group {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .cta-button {
-                width: 100%;
-                max-width: 280px;
-                justify-content: center;
-                margin: 5px 0;
-            }
-            
-            .store-grid {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            }
-            
-            .store-item {
-                font-size: 0.9rem;
-                padding: 10px;
-            }
-        }
-    </style>
+  /* focus visibility */
+  a:focus-visible, button:focus-visible, input:focus-visible{
+    outline:2px solid var(--indigo);outline-offset:2px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+</style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Professional App Publishing</h1>
-                <p>Get your app published on Google Play Store and 45+ alternative platforms with guaranteed approval</p>
-                <div class="cta-group">
-                    <a href="#play-store" class="cta-button cta-primary">
-                        <i class="fab fa-google-play"></i> Google Play
-                    </a>
-                    <a href="#alt-stores" class="cta-button cta-secondary">
-                        <i class="fas fa-store"></i> All Stores
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <div class="container">
-        <!-- Play Store Section -->
-        <section class="play-section">
-            <div class="play-card" id="play-store">
-                <div>
-                    <div class="play-header">
-                        <i class="fab fa-google-play play-icon"></i>
-                        <h2 class="play-title">Play Store</h2>
-                    </div>
-                    <p>Expert publishing service for Google Play Store with optimized listings for maximum visibility and downloads.</p>
-                    
-                    <ul class="play-features">
-                        <li>100% Approval Guarantee</li>
-                        <li>Optimized Listings for More Downloads</li>
-                        <li>Fast Publishing (24-48 Hours)</li>
-                        <li>Policy Compliance Check</li>
-                        <li>Ongoing Support</li>
-                    </ul>
-                    
-                    <a href="https://wa.me/918602967573?text=Hi!%20I%20want%20to%20publish%20my%20app%20on%20Google%20Play%20Store" 
-                       class="publish-btn">
-                        <i class="fas fa-paper-plane"></i> Publish My App
-                    </a>
-                </div>
-                <div style="text-align: center; margin-top: 30px;">
-                    <img src="https://i.imgur.com/JbQKZqA.png" alt="Play Store Screenshot" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);">
-                </div>
-            </div>
-        </section>
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand"><span class="dot"></span>PublishReady</div>
+    <button class="nav-cta" onclick="openModal('Quick enquiry')">Publish my app</button>
+  </div>
+</nav>
 
-        <!-- Alternative Stores -->
-        <section class="alt-stores" id="alt-stores">
-            <h2 class="section-title">Also Available On 45+ Stores</h2>
-            <div class="store-grid">
-                <div class="store-item">APKPure</div>
-                <div class="store-item">Aptoide</div>
-                <div class="store-item">Amazon Appstore</div>
-                <div class="store-item">Samsung Galaxy Store</div>
-                <div class="store-item">Huawei AppGallery</div>
-                <div class="store-item">Uptodown</div>
-                <div class="store-item">APKMirror</div>
-                <div class="store-item">F-Droid</div>
-                <div class="store-item">Tencent MyApp</div>
-                <div class="store-item">GetJar</div>
-                <div class="store-item">SlideME</div>
-                <div class="store-item">ACMarket</div>
-                <div class="store-item">Yalp Store</div>
-                <div class="store-item">QooApp</div>
-                <div class="store-item">TapTap</div>
-                <div class="store-item">Aurora Store</div>
-                <div class="store-item">AppBrain</div>
-                <div class="store-item">9Apps</div>
-                <div class="store-item">Xiaomi App Store</div>
-                <div class="store-item">Oppo App Market</div>
-                <div class="store-item">Vivo App Store</div>
-                <div class="store-item">Lenovo App Store</div>
-                <div class="store-item">Baidu Mobile Assistant</div>
-                <div class="store-item">APKMonk</div>
-                <div class="store-item">APKHere</div>
-                <div class="store-item">APK4Fun</div>
-                <!-- Add all 45+ stores -->
-            </div>
-            
-            <div style="text-align: center; margin-top: 30px;">
-                <a href="https://wa.me/918602967573?text=Hi!%20I%20want%20to%20publish%20my%20app%20on%20multiple%20stores" 
-                   class="publish-btn">
-                    <i class="fas fa-store"></i> Publish on All Stores
-                </a>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section class="contact-section">
-            <div class="container">
-                <h2 class="contact-title">Ready to Publish Your App?</h2>
-                <p class="contact-subtitle">Get in touch directly via WhatsApp for fastest response</p>
-                <a href="https://wa.me/918602967573?text=Hi!%20I%20want%20to%20publish%20my%20app" 
-                   class="publish-btn" style="display: inline-flex;">
-                    <i class="fab fa-whatsapp"></i> Chat on WhatsApp
-                </a>
-            </div>
-        </section>
-
-        <!-- About Me -->
-        <section class="about-me">
-            <h2 style="margin-bottom: 15px;">About The Publisher</h2>
-            <p style="max-width: 700px; margin: 0 auto 20px; color: var(--gray);">
-                Hi, I'm <strong>Unknown Coder</strong>. I've helped hundreds of developers successfully publish their apps across multiple platforms with 100% approval rate.
-            </p>
-            
-            <div class="social-links">
-                <a href="https://www.instagram.com/unknown_coder1x" class="social-link instagram" target="_blank">
-                    <i class="fab fa-instagram"></i> Instagram
-                </a>
-                <a href="https://x.com/puffxhost1x" class="social-link twitter" target="_blank">
-                    <i class="fab fa-twitter"></i> Twitter
-                </a>
-                <a href="https://github.com/puffxhost" class="social-link github" target="_blank">
-                    <i class="fab fa-github"></i> GitHub
-                </a>
-                <a href="tel:+918602967573" class="social-link whatsapp">
-                    <i class="fas fa-phone"></i> +91 8602967573
-                </a>
-            </div>
-        </section>
+<header class="hero">
+  <div class="container">
+    <span class="eyebrow"><span class="blink"></span>46 STORES · 100% APPROVAL RATE</span>
+    <h1>Ship your app to <span>Google Play</span> — and 45 stores besides.</h1>
+    <p>Send your APK, we handle listing, policy checks and store submission. Most apps go live within 24–48 hours.</p>
+    <div class="hero-ctas">
+      <button class="btn btn-primary" onclick="openModal('Publish My App')">
+        <i class="fab fa-google-play"></i> Publish my app
+      </button>
+      <a href="#alt-stores" class="btn btn-ghost">
+        <i class="fas fa-grip"></i> See all 46 stores
+      </a>
     </div>
 
-    <script>
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+    <div class="pipeline">
+      <div class="pipeline-label mono">$ publish --status</div>
+      <div class="stages">
+        <div class="stage done"><div class="node"><i class="fas fa-check"></i></div><div class="stage-name">App received</div></div>
+        <div class="connector done"></div>
+        <div class="stage active"><div class="node"><i class="fas fa-magnifying-glass"></i></div><div class="stage-name">Policy check</div></div>
+        <div class="connector"></div>
+        <div class="stage"><div class="node">3</div><div class="stage-name">Store listing</div></div>
+        <div class="connector"></div>
+        <div class="stage"><div class="node">4</div><div class="stage-name">Live</div></div>
+      </div>
+    </div>
+  </div>
+</header>
 
-        // Mobile menu toggle would go here if needed
-    </script>
+<section id="play-store">
+  <div class="container">
+    <div class="play-card">
+      <div>
+        <div class="play-top">
+          <i class="fab fa-google-play"></i>
+          <h3>Google Play Store</h3>
+        </div>
+        <ul class="feat-list">
+          <li><i class="fas fa-check"></i> 100% approval guarantee</li>
+          <li><i class="fas fa-check"></i> Store listing optimised for downloads</li>
+          <li><i class="fas fa-check"></i> Published within 24–48 hours</li>
+          <li><i class="fas fa-check"></i> Full policy compliance check</li>
+          <li><i class="fas fa-check"></i> Support after your app goes live</li>
+        </ul>
+        <button class="btn btn-primary" onclick="openModal('Google Play Store')">
+          <i class="fas fa-paper-plane"></i> Publish my app
+        </button>
+      </div>
+      <div style="text-align:center;">
+        <img src="https://i.imgur.com/JbQKZqA.png" alt="Play Store listing preview" style="max-width:100%;border-radius:12px;border:1px solid var(--line);">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="alt-stores">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Reach</span>
+      <h2>Also available on 45+ stores</h2>
+      <p>One submission, distributed everywhere your users already look for apps.</p>
+    </div>
+    <div class="store-grid">
+      <div class="store-item">APKPure</div>
+      <div class="store-item">Aptoide</div>
+      <div class="store-item">Amazon Appstore</div>
+      <div class="store-item">Samsung Galaxy Store</div>
+      <div class="store-item">Huawei AppGallery</div>
+      <div class="store-item">Uptodown</div>
+      <div class="store-item">APKMirror</div>
+      <div class="store-item">F-Droid</div>
+      <div class="store-item">Tencent MyApp</div>
+      <div class="store-item">GetJar</div>
+      <div class="store-item">SlideME</div>
+      <div class="store-item">ACMarket</div>
+      <div class="store-item">Yalp Store</div>
+      <div class="store-item">QooApp</div>
+      <div class="store-item">TapTap</div>
+      <div class="store-item">Aurora Store</div>
+      <div class="store-item">AppBrain</div>
+      <div class="store-item">9Apps</div>
+      <div class="store-item">Xiaomi App Store</div>
+      <div class="store-item">Oppo App Market</div>
+      <div class="store-item">Vivo App Store</div>
+      <div class="store-item">Lenovo App Store</div>
+      <div class="store-item">Baidu Mobile Assistant</div>
+      <div class="store-item">APKMonk</div>
+      <div class="store-item">APKHere</div>
+      <div class="store-item">APK4Fun</div>
+    </div>
+    <div style="text-align:center;margin-top:30px;">
+      <button class="btn btn-primary" onclick="openModal('All Stores')">
+        <i class="fas fa-store"></i> Publish on all stores
+      </button>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="cta-strip">
+      <h2>Ready to publish?</h2>
+      <p>Fill a 30-second form — details land straight in our WhatsApp.</p>
+      <button class="btn btn-primary" onclick="openModal('Ready to publish')">
+        <i class="fab fa-whatsapp"></i> Start now
+      </button>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="about">
+      <div class="about-text">
+        <h3>About the publisher</h3>
+        <p>I'm <strong>Unknown Coder</strong> — I've helped hundreds of developers get their apps live across multiple stores with a 100% approval rate.</p>
+      </div>
+      <div class="social-links">
+        <a href="https://www.instagram.com/unknown_coder1x" class="social-link" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://x.com/puffxhost1x" class="social-link" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+        <a href="https://github.com/puffxhost" class="social-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>PublishReady · App publishing, handled.</footer>
+
+<!-- FORM MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close"><i class="fas fa-xmark"></i></button>
+    <h3>Publish my app</h3>
+    <p class="modal-sub" id="modalSub">Share a few details — we'll open WhatsApp with everything filled in.</p>
+    <form id="publishForm" onsubmit="submitForm(event)">
+      <div class="field">
+        <label for="fullName">Your name</label>
+        <input type="text" id="fullName" placeholder="e.g. Rahul Sharma" required>
+        <div class="field-error" id="err-fullName">Please enter your name.</div>
+      </div>
+      <div class="field">
+        <label for="appName">App name</label>
+        <input type="text" id="appName" placeholder="e.g. FitTrack Pro" required>
+        <div class="field-error" id="err-appName">Please enter your app name.</div>
+      </div>
+      <div class="field">
+        <label for="amount">Budget / amount (₹)</label>
+        <input type="number" id="amount" placeholder="e.g. 1500" min="0" required>
+        <div class="field-error" id="err-amount">Please enter an amount.</div>
+      </div>
+      <button type="submit" class="btn btn-primary modal-submit">
+        <i class="fab fa-whatsapp"></i> Send on WhatsApp
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const WHATSAPP_NUMBER = "917354336624"; // +91 7354336624
+
+  function openModal(context){
+    document.getElementById('modalSub').textContent =
+      "Share a few details — we'll open WhatsApp with everything filled in.";
+    document.getElementById('modalOverlay').classList.add('open');
+    document.getElementById('fullName').focus();
+  }
+  function closeModal(){
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.getElementById('publishForm').reset();
+    document.querySelectorAll('.field-error').forEach(e => e.style.display='none');
+  }
+  document.getElementById('modalOverlay').addEventListener('click', (e) => {
+    if(e.target.id === 'modalOverlay') closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') closeModal();
+  });
+
+  function submitForm(e){
+    e.preventDefault();
+    const name = document.getElementById('fullName').value.trim();
+    const appName = document.getElementById('appName').value.trim();
+    const amount = document.getElementById('amount').value.trim();
+
+    let valid = true;
+    if(!name){ document.getElementById('err-fullName').style.display='block'; valid=false; }
+    else { document.getElementById('err-fullName').style.display='none'; }
+    if(!appName){ document.getElementById('err-appName').style.display='block'; valid=false; }
+    else { document.getElementById('err-appName').style.display='none'; }
+    if(!amount){ document.getElementById('err-amount').style.display='block'; valid=false; }
+    else { document.getElementById('err-amount').style.display='none'; }
+    if(!valid) return;
+
+    const message =
+`Hi! I want to publish my app.
+Name: ${name}
+App Name: ${appName}
+Amount: ₹${amount}`;
+
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+    closeModal();
+  }
+</script>
+
 </body>
 </html>
