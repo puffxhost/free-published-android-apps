@@ -72,7 +72,7 @@ This repository is licensed under the **MIT License** — free for personal and 
 **Nitin Mehta**  
 🌐 puffxhost.com  
 📧 support@puffxhost.com  
-📸 @unknown_coder1x  
+📸 @nitinmehta.codes  
 
 <hr>
 <p align="center">
